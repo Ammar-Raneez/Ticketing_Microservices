@@ -16,6 +16,12 @@ spec:
         - name: auth
           image: ammuuu/auth
           # image: us.gcr.io/grider-ticketing-432808/auth
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
 
 ---
 
