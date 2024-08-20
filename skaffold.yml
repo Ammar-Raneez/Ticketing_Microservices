@@ -6,8 +6,11 @@ manifests:
 build:
   local:
     push: false
+  # googleCloudBuild:
+  #   projectId: grider-ticketing-432808
   artifacts:
     - image: ammuuu/auth
+    # - image: us.gcr.io/grider-ticketing-432808/auth
       context: auth
       docker:
         dockerfile: Dockerfile
