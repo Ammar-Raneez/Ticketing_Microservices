@@ -24,6 +24,7 @@ AppComponent.getInitialProps = async (appContext) => {
   try {
     let baseURL = "/";
     if (typeof window === "undefined") {
+      // {nginx-service-name}.{nginx-namespace}.svc.cluster.local/{route}
       baseURL =
         "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/current-user";
       const { data } = await axios.get(baseURL, {
