@@ -1,4 +1,4 @@
-import buildClient from "../api/build-client";
+import axios from "axios";
 
 const LandingPage = ({ currentUser }) => {
   return currentUser ? (
@@ -8,16 +8,26 @@ const LandingPage = ({ currentUser }) => {
   );
 };
 
-// Fetch data on initial load
+// Fetch data on initial load on server side. Executed on client on in-app navigation
 LandingPage.getInitialProps = async (context) => {
-  const client = buildClient(context);
   try {
-    const { data } = await client.get("/api/users/current-user");
-    return data;
+    let baseURL = "/";
+    if (typeof window === "undefined") {
+      baseURL =
+        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/current-user";
+      const { data } = await axios.get(baseURL, {
+        headers: { ...context.req.headers, Host: "ticketing.dev" },
+      });
+
+      return data
+    } else {
+      const { data } = await axios.get(baseURL);
+      return data;
+    }
   } catch (err) {
     console.log(err.message);
     return {};
-  };
+  }
 };
 
 export default LandingPage;

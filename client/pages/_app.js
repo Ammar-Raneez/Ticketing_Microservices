@@ -1,9 +1,10 @@
-import Header from "../components/Header";
+import axios from "axios";
 
-import buildClient from "../api/build-client";
+import Header from "../components/Header";
 
 import "bootstrap/dist/css/bootstrap.css";
 
+// Wraps around all the components
 const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
@@ -14,24 +15,34 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 };
 
 AppComponent.getInitialProps = async (appContext) => {
-  const client = buildClient(appContext.ctx);
-
   let pageProps = {};
   if (appContext.Component.getInitialProps) {
+    // Trigger getInitialProps of the landing page. (A custom one here disallows the other from executing)
     pageProps = await appContext.Component.getInitialProps(appContext.ctx);
   }
 
   try {
-    const { data } = await client.get("/api/users/current-user");
-    return {
-      pageProps,
-      ...data,
-    };
+    let baseURL = "/";
+    if (typeof window === "undefined") {
+      baseURL =
+        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/current-user";
+      const { data } = await axios.get(baseURL, {
+        headers: { ...appContext.ctx.req.headers, Host: "ticketing.dev" },
+      });
+
+      return {
+        pageProps,
+        ...data,
+      };
+    } else {
+      const { data } = await axios.get(baseURL);
+      return { pageProps, ...data };
+    }
   } catch (err) {
     console.log(err.message);
     return {
       pageProps,
-    }
+    };
   }
 };
 
