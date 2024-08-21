@@ -2,7 +2,7 @@ import express from "express";
 import "express-async-errors";
 
 import { json } from "body-parser";
-import cookieSession from 'cookie-session';
+import cookieSession from "cookie-session";
 
 import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
@@ -14,7 +14,7 @@ import { NotFoundError } from "./errors/not-found-error";
 const app = express();
 
 // trust the nginx configuration
-app.set('trust proxy', true);
+app.set("trust proxy", true);
 app.use(json());
 
 // do not encrypt cookie details as the JWT is by itself tamper resistant
@@ -22,8 +22,10 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: true
-  })
+
+    // Only send cookies on an HTTPS connection (supertest uses HTTP). Jest sets NODE_ENV to test on run
+    secure: process.env.NODE_ENV !== "test",
+  }),
 );
 
 app.use(currentUserRouter);
