@@ -2,7 +2,9 @@ FROM node:alpine
 
 WORKDIR /app
 COPY package.json .
-RUN npm install
+
+# Omit devDependencies from container
+RUN npm install --omit=dev
 COPY . .
 
 CMD ["npm", "start"]
