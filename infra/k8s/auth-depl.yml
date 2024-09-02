@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth-depl
+  namespace: ticketing-ns
 spec:
   replicas: 1
   selector:
@@ -31,6 +32,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auth-srv
+  namespace: ticketing-ns
 spec:
   type: ClusterIP
   selector:

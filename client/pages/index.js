@@ -14,7 +14,7 @@ LandingPage.getInitialProps = async (context) => {
     let baseURL = "/";
     if (typeof window === "undefined") {
       baseURL =
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/current-user";
+        "http://nginx-gateway.nginx-gateway.svc.cluster.local/api/users/current-user";
       const { data } = await axios.get(baseURL, {
         headers: { ...context.req.headers, Host: "ticketing.dev" },
       });
