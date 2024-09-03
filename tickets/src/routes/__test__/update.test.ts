@@ -38,6 +38,7 @@ it("Returns a 401 if the user does not own the ticket", async () => {
     })
     .expect(201);
 
+  // Test with a different cookie
   await request(app)
     .put(`/api/tickets/${response.body.id}`)
     .set("Cookie", global.signin())

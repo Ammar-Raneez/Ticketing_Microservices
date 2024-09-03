@@ -22,9 +22,9 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-
+    secure: false,
     // Only send cookies on an HTTPS connection (supertest uses HTTP). Jest sets NODE_ENV to test on run
-    secure: process.env.NODE_ENV !== "test",
+    //secure: process.env.NODE_ENV !== "test",
   }),
 );
 

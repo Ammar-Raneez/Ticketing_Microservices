@@ -29,6 +29,7 @@ router.put(
       throw new NotFoundError();
     }
 
+    // Specific user's can edit only their tickets
     if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
