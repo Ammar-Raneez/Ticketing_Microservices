@@ -18,7 +18,7 @@ beforeAll(async () => {
   const mongoURI = mongo.getUri();
 
   await mongoose.connect(mongoURI);
-});
+}, 10000);
 
 // Clear collections before each test
 beforeEach(async () => {
@@ -32,9 +32,8 @@ beforeEach(async () => {
 
 // Close Mongo connection after all tests
 afterAll(async () => {
-  if (mongo) await mongo.stop();
-
   await mongoose.connection.close();
+  if (mongo) await mongo.stop();
 });
 
 // Create a global signin function available in the test environment

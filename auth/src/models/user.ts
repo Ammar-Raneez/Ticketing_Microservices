@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
   },
 );
 
+// Enforce model type when used
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
