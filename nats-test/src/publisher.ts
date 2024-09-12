@@ -17,6 +17,7 @@ client.on("connect", async () => {
       id: "123",
       title: "Concert",
       price: 20,
+      userId: "test"
     });
   } catch (err) {
     console.error(err);
