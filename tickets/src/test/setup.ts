@@ -21,6 +21,8 @@ beforeAll(async () => {
 }, 10000);
 
 beforeEach(async () => {
+  // Reset all mock functions to start each fresh (reset nats wrapper function)
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db?.collections();
   if (collections) {
     for (let collection of collections) {
