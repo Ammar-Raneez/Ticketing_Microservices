@@ -10,10 +10,10 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@ar-personal/tickets-common@1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@ar-personal/tickets-common/-/tickets-common-1.0.13.tgz#60e3813b5b9d9969bb05241e4a91f938b843bed2"
-  integrity sha512-YRqRPKjs9YtGQ88axCe5WIcca9R1rMvFKO8eNA/sMpyNjlhM5ceKvqA8iAXw+XV57bh7q6IJwMC+b770fUo2xw==
+"@ar-personal/tickets-common@1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@ar-personal/tickets-common/-/tickets-common-1.0.14.tgz#a0ebb20f670d501ec2ffcfbdb969dfdd3cb979b5"
+  integrity sha512-IXV/Q45OaY45ZQYPPC2iMWT4e5yXZQj3PWIoS6d+kSv4gOvVYUdTNwnW5YS71TtCKbnSgcY4pEDC4fIW9kW/ug==
   dependencies:
     "@types/cookie-session" "^2.0.49"
     "@types/express" "^4.17.21"

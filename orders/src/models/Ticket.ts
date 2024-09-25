@@ -41,8 +41,10 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
 
+// If the ticket is in any state but Cancelled, it is currently reserved and cannot be accessed by another person
 ticketSchema.methods.isReserved = async function() {
   const existingOrder = await Order.findOne({
+    // "this" works only for named functions
     ticket: this,
     status: {
       $in: [

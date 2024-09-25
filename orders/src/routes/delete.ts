@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+
 import {
   requireAuth,
   NotFoundError,
@@ -6,8 +7,8 @@ import {
 } from "@ar-personal/tickets-common";
 
 import { Order, OrderStatus } from "../models/Order";
-import { OrderCancelledPublisher } from "../events/publishers/OrderCancelledPublisher";
-import { natsWrapper } from "../NatsWrapper";
+import { OrderCancelledPublisher } from "../events/publishers/order-cancelled-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 

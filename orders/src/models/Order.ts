@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { OrderStatus } from "@ar-personal/tickets-common";
 
 import { TicketDoc } from "./Ticket";
