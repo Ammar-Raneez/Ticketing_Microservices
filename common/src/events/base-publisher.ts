@@ -1,6 +1,6 @@
 import { Stan } from "node-nats-streaming";
 
-import { Subjects } from "../enums/subjects";
+import { Subjects } from "../types/subjects";
 
 interface Event {
   subject: Subjects;

@@ -16,5 +16,5 @@ export * from "./events/base-publisher";
 export * from "./events/ticket-created-event";
 export * from "./events/ticket-updated-event";
 
-export * from "./enums/subjects";
-export * from "./enums/order-status";
+export * from "./types/subjects";
+export * from "./types/order-status";
