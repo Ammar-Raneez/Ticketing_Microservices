@@ -8,6 +8,10 @@ declare global {
   var signin: () => string[];
 }
 
+// Jest redirect imports. Create a file with the same name as the file to be mocked
+// Which will redirect nats wrapper import to the mocked nats wrapper
+jest.mock("../nats-wrapper");
+
 beforeAll(async () => {
   process.env.JWT_KEY = "local-test-key";
   mongo = await MongoMemoryServer.create();
