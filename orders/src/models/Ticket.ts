@@ -45,7 +45,8 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket({
     // Mongoose will create a new "_id" value, remap this to ensure that the same id is used
     _id: attrs.id,
-    ...attrs,
+    title: attrs.title,
+    price: attrs.price,
   });
 };
 
