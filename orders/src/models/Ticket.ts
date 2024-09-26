@@ -3,11 +3,15 @@ import mongoose from "mongoose";
 import { Order, OrderStatus } from "./Order";
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
 
-export interface TicketDoc extends mongoose.Document, TicketAttrs {
+export interface TicketDoc extends mongoose.Document {
+  id: string;
+  title: string;
+  price: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -38,7 +42,11 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
+  return new Ticket({
+    // Mongoose will create a new "_id" value, remap this to ensure that the same id is used
+    _id: attrs.id,
+    ...attrs,
+  });
 };
 
 // If the ticket is in any state but Cancelled, it is currently reserved and cannot be accessed by another person
