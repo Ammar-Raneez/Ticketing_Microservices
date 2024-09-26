@@ -29,9 +29,11 @@ router.post(
 
     await ticket.save();
 
-    // Upon publishing a ticket, an error could occur (created ticket but event isn't published)
-    // Solving this would utlize a separate collection storing the events with a status on whether it's sent
-    // Therefore, if NATS goes down, it can check the collection and process unprocessed events
+    /*
+     * Upon publishing a ticket, an error could occur (ex: a ticket was created, but an event wasn't published)
+     * Solving this would utlize a separate collection storing the events with a status on whether it's sent
+     * Therefore, if NATS goes down, it can check the collection and process unprocessed events
+     */
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,

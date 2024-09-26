@@ -27,14 +27,10 @@ router.put(
   async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);
 
-    if (!ticket) {
-      throw new NotFoundError();
-    }
+    if (!ticket) throw new NotFoundError();
 
     // Specific user's can edit only their tickets
-    if (ticket.userId !== req.currentUser!.id) {
-      throw new NotAuthorizedError();
-    }
+    if (ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError();
 
     ticket.set({
       title: req.body.title,

@@ -5,6 +5,8 @@ export interface OrderCancelledEvent {
   data: {
     id: string;
     ticket: {
+      // Which ticket is unreserved and can be edited
+      // Which order's payment must be rejected
       id: string;
     };
   };

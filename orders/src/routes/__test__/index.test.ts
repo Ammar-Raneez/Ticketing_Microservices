@@ -1,0 +1,63 @@
+import request from "supertest";
+
+import { Ticket } from "../../models/Ticket";
+import { app } from "../../app";
+
+const buildTicket = async () => {
+  const ticket = Ticket.build({
+    title: "Concert",
+    price: 20,
+  });
+
+  await ticket.save();
+
+  return ticket;
+};
+
+it("Fetches orders for a particular user", async () => {
+  // Create three tickets
+  const ticketOne = await buildTicket();
+  const ticketTwo = await buildTicket();
+  const ticketThree = await buildTicket();
+
+  // Two users for testing
+  const userOne = global.signin();
+  const userTwo = global.signin();
+
+  // Create an order as User #1
+  await request(app)
+    .post("/api/orders")
+    .set("Cookie", userOne)
+    .send({ ticketId: ticketOne.id })
+    .expect(201);
+
+  // Create two orders as User #2
+  const { body: orderOne } = await request(app)
+    .post("/api/orders")
+    .set("Cookie", userTwo)
+    .send({ ticketId: ticketTwo.id })
+    .expect(201);
+
+  const { body: orderTwo } = await request(app)
+    .post("/api/orders")
+    .set("Cookie", userTwo)
+    .send({ ticketId: ticketThree.id })
+    .expect(201);
+
+  // Get orders of User #2
+  const response = await request(app)
+    .get("/api/orders")
+    .set("Cookie", userTwo)
+    .expect(200);
+
+  // Make sure only two orders are present
+  expect(response.body.length).toEqual(2);
+
+  // Ensure correct orders are obtained
+  expect(response.body[0].id).toEqual(orderOne.id);
+  expect(response.body[1].id).toEqual(orderTwo.id);
+
+  // Ensure ticket IDs of orders are correct
+  expect(response.body[0].ticket.id).toEqual(ticketTwo.id);
+  expect(response.body[1].ticket.id).toEqual(ticketThree.id);
+});
