@@ -4,6 +4,7 @@ export interface OrderCancelledEvent {
   subject: Subjects.OrderCancelled;
   data: {
     id: string;
+    version: number;
     ticket: {
       // Which ticket is unreserved and can be edited
       // Which order's payment must be rejected

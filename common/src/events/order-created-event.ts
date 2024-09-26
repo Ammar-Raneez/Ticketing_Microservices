@@ -8,6 +8,7 @@ export interface OrderCreatedEvent {
   data: {
     id: string;
     status: OrderStatus;
+    version: number;
     
     // Required by the payment service to understand who placed the order
     userId: string;
