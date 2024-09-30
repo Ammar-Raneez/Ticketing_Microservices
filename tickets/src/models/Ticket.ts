@@ -19,6 +19,9 @@ interface TicketAttrs {
 interface TicketDoc extends mongoose.Document, TicketAttrs {
   // By default "__v" is present; however, the renamed one isn't
   version: number;
+
+  // Track whether an order has been placed on a ticket
+  orderId?: string;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -38,6 +41,9 @@ const ticketSchema = new mongoose.Schema(
     userId: {
       type: String,
       required: true,
+    },
+    orderId: {
+      type: String,
     },
   },
   {

@@ -1,6 +1,6 @@
-import { Message, Stan } from 'node-nats-streaming';
+import { Message, Stan } from "node-nats-streaming";
 
-import { Subjects } from '../types/subjects';
+import { Subjects } from "../types/subjects";
 
 interface Event {
   subject: Subjects;
@@ -9,13 +9,13 @@ interface Event {
 
 // Listener abstract class name
 export abstract class Listener<T extends Event> {
-  abstract subject: T['subject'];
+  abstract subject: T["subject"];
 
   abstract queueGroupName: string;
 
-  abstract onMessage(data: T['data'], msg: Message): void;
+  abstract onMessage(data: T["data"], msg: Message): void;
 
-  private client: Stan;
+  protected client: Stan;
 
   protected ackWait = 5 * 1000;
 
@@ -66,4 +66,3 @@ export abstract class Listener<T extends Event> {
       : JSON.parse(data.toString("utf8"));
   }
 }
-
