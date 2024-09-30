@@ -6,6 +6,7 @@ import {
   NotFoundError,
   requireAuth,
   NotAuthorizedError,
+  BadRequestError,
 } from "@ar-personal/tickets-common";
 
 import { Ticket } from "../models/Ticket";
@@ -32,6 +33,10 @@ router.put(
     // Specific user's can edit only their tickets
     if (ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError();
 
+    // Disable editing of a ticket that has an order
+    if (ticket.orderId)
+      throw new BadRequestError("Cannot edit a reserved ticket");
+
     ticket.set({
       title: req.body.title,
       price: req.body.price,
@@ -44,6 +49,7 @@ router.put(
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      version: ticket.version,
     });
 
     return res.status(200).send(ticket);

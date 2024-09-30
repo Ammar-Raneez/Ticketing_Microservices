@@ -26,7 +26,6 @@ it("Implements optimistic concurrency control", async () => {
     // Save the second ticket - this must produce an error as the secondInstance has the same version as the first (it must be an incremented value)
     await secondInstance!.save();
   } catch {
-    console.log("Should come here");
     return;
   }
 });
