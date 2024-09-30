@@ -1,6 +1,6 @@
 {
   "name": "@ar-personal/tickets-common",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A common lib for ticketing microservices",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

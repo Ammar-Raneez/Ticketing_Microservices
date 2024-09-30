@@ -58,6 +58,17 @@ it("Publishes a ticket updated event", async () => {
   await listener.onMessage(data, msg);
   expect(natsWrapper.client.publish).toHaveBeenCalled();
 
+  /*      
+    console.log((natsWrapper.client.publish as jest.Mock).mock.calls);
+    [
+        [
+          'ticket:updated',
+          '{"id":"66fa6a8f5d114d42203d1c27","price":99,"title":"Concert","userId":"asdf","orderId":"66fa6a8f5d114d42203d1c29","version":1}',
+          [Function (anonymous)]
+        ]
+    ]
+  */
+
   const ticketUpdatedData = JSON.parse(
     (natsWrapper.client.publish as jest.Mock).mock.calls[0][1],
   );
