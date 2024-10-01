@@ -22,7 +22,7 @@ spec:
             - name: NATS_CLUSTER_ID
               value: ticketing
 
-            # Each ticketing client must be an unique client connecting to the same NATS server
+            # Each expiration client must be an unique client connecting to the same NATS server
             # As each pod will have its own unique ID, this can be used as the client ID
             - name: NATS_CLIENT_ID
               valueFrom:

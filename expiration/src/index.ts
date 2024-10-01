@@ -10,6 +10,8 @@ const start = async () => {
 
   if (!process.env.NATS_URL) throw new Error("NATS_URL must be defined");
 
+  if (!process.env.REDIS_HOST) throw new Error("REDIST_HOST must be defined");
+
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
@@ -29,10 +31,6 @@ const start = async () => {
   } catch (err) {
     console.error(err);
   }
-
-  app.listen(3000, () => {
-    console.log("Listening on port 3000");
-  });
 };
 
 start();
