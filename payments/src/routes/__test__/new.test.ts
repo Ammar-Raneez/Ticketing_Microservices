@@ -6,6 +6,7 @@ import { OrderStatus } from "@ar-personal/tickets-common";
 import { app } from "../../app";
 import { Order } from "../../models/Order";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/Payment";
 
 //jest.mock("../../stripe");
 
@@ -101,4 +102,12 @@ it("Creates a successful charge with valid inputs", async () => {
 
   expect(stripeCharge).toBeDefined();
   expect(stripeCharge?.currency).toEqual("usd");
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: stripeCharge!.id,
+  });
+
+  // Payment is either a payment object or null, not undefined
+  expect(payment).not.toBeNull();
 });

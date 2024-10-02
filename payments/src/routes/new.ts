@@ -13,6 +13,8 @@ import {
 import { Order } from "../models/Order";
 import { natsWrapper } from "../nats-wrapper";
 import { stripe } from "../stripe";
+import { Payment } from "../models/Payment";
+import { PaymentCreatedPublisher } from "../events/publishers/payment-created-publisher";
 
 const router = express.Router();
 router.post(
@@ -45,10 +47,23 @@ router.post(
 
       // Stripe works on cents
       amount: order.price * 100,
-      source: token
+      source: token,
     });
 
-    res.send({ success: true });
+    const payment = Payment.build({
+      orderId,
+      stripeId: charge.id,
+    });
+
+    payment.save();
+
+    new PaymentCreatedPublisher(natsWrapper.client).publish({
+      id: payment.id,
+      orderId: payment.orderId,
+      stripeId: payment.stripeId,
+    });
+
+    res.status(201).send({ id: payment.id });
   },
 );
 
