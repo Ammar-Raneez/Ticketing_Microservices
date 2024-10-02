@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 let mongo: any;
 
 declare global {
-  var signin: () => string[];
+  var signin: (id?: string) => string[];
 }
 
 // Jest redirect imports. Create a file with the same name as the file to be mocked
@@ -36,10 +36,11 @@ afterAll(async () => {
   if (mongo) await mongo.stop();
 });
 
-global.signin = () => {
+global.signin = (id?: string) => {
   // Create a fake token for use in the test environment
   const payload = {
-    id: new mongoose.Types.ObjectId().toHexString(),
+    // Use a given user's ID or generate a new one
+    id: id || new mongoose.Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
 
