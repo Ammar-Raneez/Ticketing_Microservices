@@ -12,6 +12,9 @@ declare global {
 // Which will redirect nats wrapper import to the mocked nats wrapper
 jest.mock("../nats-wrapper");
 
+process.env.STRIPE_KEY =
+  "sk_test_51LipURExvrTxAfIezP5KZc23lA1BsNfNWuBeMYgU77r1seETWzeydO8YBLWWE5WGvFz0DxMLQStDwAzba2jxIEv800XmneFeN4";
+
 beforeAll(async () => {
   process.env.JWT_KEY = "local-test-key";
   mongo = await MongoMemoryServer.create();
@@ -50,7 +53,7 @@ global.signin = (id?: string) => {
 
   const sessionJSON = JSON.stringify(session);
 
-  // Create base64 encoded string 
+  // Create base64 encoded string
   const base64 = Buffer.from(sessionJSON).toString("base64");
 
   return [`session=${base64}`];
