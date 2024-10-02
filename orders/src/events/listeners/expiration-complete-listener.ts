@@ -20,6 +20,7 @@ export class ExpirationCompleteListener extends Listener<ExpirationCompleteEvent
 
     if (!order) throw new Error("Order not found");
 
+    // Prevent cancellation of orders paid for
     if (order.status === OrderStatus.Complete) return msg.ack();
 
     // Don't remove the ticket so cancelled tickets can be found
