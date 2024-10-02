@@ -1,18 +1,19 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 import { Order, OrderStatus } from "./Order";
 
-interface TicketAttrs {
-  id: string;
+interface CommonAttrs {
   title: string;
   price: number;
 }
 
-export interface TicketDoc extends mongoose.Document {
+interface TicketAttrs extends CommonAttrs {
   id: string;
-  title: string;
-  price: number;
+}
+
+export interface TicketDoc extends mongoose.Document, CommonAttrs {
+  id: string;
   version: number;
   isReserved(): Promise<boolean>;
 }
