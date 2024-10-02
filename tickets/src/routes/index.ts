@@ -5,7 +5,11 @@ import { Ticket } from "../models/Ticket";
 const router = express.Router();
 
 router.get("/api/tickets", async (_: Request, res: Response) => {
-  const tickets = await Ticket.find({});
+  // Send only unbooked tickets as required by the client
+  const tickets = await Ticket.find({
+    orderId: undefined,
+  });
+
   return res.send(tickets);
 });
 
