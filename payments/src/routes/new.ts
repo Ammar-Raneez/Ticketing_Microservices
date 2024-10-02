@@ -12,6 +12,7 @@ import {
 
 import { Order } from "../models/Order";
 import { natsWrapper } from "../nats-wrapper";
+import { stripe } from "../stripe";
 
 const router = express.Router();
 router.post(
@@ -33,7 +34,19 @@ router.post(
     if (order.status === OrderStatus.Cancelled)
       throw new BadRequestError("Cannot pay for a cancelled order");
 
+    /*
+     * Stripe API provides us with a token that can be used to bill a specific card card
+     * We don't handle credit card details as Stripe API will handle it
+     */
 
+    // Create a charge a card based on a token.
+    const charge = await stripe.charges.create({
+      currency: "usd",
+
+      // Stripe works on cents
+      amount: order.price * 100,
+      source: token
+    });
 
     res.send({ success: true });
   },
