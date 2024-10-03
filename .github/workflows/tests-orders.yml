@@ -1,9 +1,6 @@
 name: tests-orders
 
 on:
-  push:
-    paths:
-      - "orders/**"
   pull_request:
     paths:
       - "orders/**"
