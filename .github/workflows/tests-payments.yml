@@ -1,9 +1,6 @@
 name: tests-payments
 
 on:
-  push:
-    paths:
-      - "payments/**"
   pull_request:
     paths:
       - "payments/**"

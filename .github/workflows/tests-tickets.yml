@@ -1,9 +1,6 @@
 name: tests-tickets
 
 on:
-  push:
-    paths:
-      - "tickets/**"
   pull_request:
     paths:
       - "tickets/**"
