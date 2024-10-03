@@ -17,3 +17,11 @@ jobs:
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - run: docker push ammuuu/tickets
+
+      - uses: digitalocean/actions-doctl@v2
+        with:
+          token: ${{secretes.DIGITAL_OCEAN_ACCESS_TOKEN}}
+
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment tickets-depl
