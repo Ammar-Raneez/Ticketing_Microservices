@@ -1,0 +1,25 @@
+# Be sure to deploy all manifests into the cluster first then trigger the actions as they run parallelly
+# Each service depends on the manifests being applied
+
+name: deploy-manifests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "infra/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITAL_OCEAN_ACCESS_TOKEN}}
+
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl apply -f infra/k8s/ticketing-ns.yml
+      - run: kubectl apply -f infra/k8s && kubectl apply -f infra/prod

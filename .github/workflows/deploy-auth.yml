@@ -1,6 +1,7 @@
 name: deploy-auth
 
 on:
+  # Trigger only on push to master branch that has modifications in auth directory
   push:
     branches:
       - master
@@ -11,9 +12,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Build and upload image to docker hub
       - uses: actions/checkout@v2
-      - run: cd auth && docker build -t ammuuu/auth
+      - run: cd auth && docker build -t ammuuu/auth .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - run: docker push ammuuu/auth
+
+      # Install doct to get access to the digital ocean cluster
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITAL_OCEAN_ACCESS_TOKEN}}
+
+      # Set the current running context to the digital ocean cluster
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+
+      # Restart deployment to utilize the new Docker image
+      - run: kubectl rollout restart deployment -n ticketing-ns auth-depl
+
